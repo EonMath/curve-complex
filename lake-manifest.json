@@ -4,7 +4,7 @@
   "packages": [
     {
       "type": "path",
-      "dir": "vendor/schoenflies-lean",
+      "dir": "curve-complex/vendor/schoenflies-lean",
       "name": "\u00abschoenflies-lean\u00bb",
       "manifestFile": "lake-manifest.json",
       "inherited": false,

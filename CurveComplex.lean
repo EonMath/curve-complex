@@ -1,4 +1,0 @@
-import MainTheorem11ProofOriginal12Consumer
-import CurveComplexGenusTwo.Topology.ActualOriginalArticle.Main12OriginalCanonicalImportsHaasConditionalV15
-import SourceTopologyMainBound
-import CurveComplexGenusTwo.Topology.ActualOriginalArticle.MainTheorem14OriginalComplete86
