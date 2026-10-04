@@ -3904,7 +3904,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
             rw [dist_zero_right]
             rw [norm_smul, Real.norm_of_nonneg (inv_nonneg.mpr (norm_nonneg _))]
             exact inv_mul_cancel₀ hn⟩
-          refine ⟨(⟨1 - ‖(z : ℂ)‖, by constructor <;> linarith [z.property, norm_nonneg (z : ℂ)]⟩, u), ?_⟩
+          refine ⟨(⟨1 - ‖(z : ℂ)‖, by constructor <;> linarith only [z.property, norm_nonneg (z : ℂ)]⟩, u), ?_⟩
           apply Subtype.ext
           change (1 - (1 - ‖(z : ℂ)‖)) • (‖(z : ℂ)‖⁻¹ • (z : ℂ)) = (z : ℂ)
           rw [sub_sub_cancel, smul_smul, mul_inv_cancel₀ hn, one_smul]
@@ -3960,7 +3960,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
        ⟨(z.val.2+1)/2,by constructor <;> linarith [(squareCoordinateBounds z).2.1,(squareCoordinateBounds z).2.2]⟩)
     invFun := fun z => ⟨(2*z.1.val-1,2*z.2.val-1),by
       simp only [Prod.norm_mk,Real.norm_eq_abs,max_le_iff,abs_le]
-      constructor <;> constructor <;> linarith [z.1.property.1,z.1.property.2,z.2.property.1,z.2.property.2]⟩
+      constructor <;> constructor <;> linarith only [z.1.property.1,z.1.property.2,z.2.property.1,z.2.property.2]⟩
     left_inv := by intro z; apply Subtype.ext; apply Prod.ext <;> change 2*((_+1)/2)-1 = _ <;> ring
     right_inv := by intro z; apply Prod.ext <;> apply Subtype.ext <;> change ((2*_-1)+1)/2 = _ <;> ring
     continuous_toFun := by fun_prop
@@ -4008,7 +4008,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
           let u : {z : ℝ × ℝ // ‖z‖ = 1} := ⟨‖(z : ℝ × ℝ)‖⁻¹ • (z : ℝ × ℝ), by
             rw [norm_smul, Real.norm_of_nonneg (inv_nonneg.mpr (norm_nonneg _))]
             exact inv_mul_cancel₀ hn⟩
-          refine ⟨(⟨1 - ‖(z : ℝ × ℝ)‖, by constructor <;> linarith [z.property, norm_nonneg (z : ℝ × ℝ)]⟩, u), ?_⟩
+          refine ⟨(⟨1 - ‖(z : ℝ × ℝ)‖, by constructor <;> linarith only [z.property, norm_nonneg (z : ℝ × ℝ)]⟩, u), ?_⟩
           apply Subtype.ext
           change (1 - (1 - ‖(z : ℝ × ℝ)‖)) • (‖(z : ℝ × ℝ)‖⁻¹ • (z : ℝ × ℝ)) = (z : ℝ × ℝ)
           rw [sub_sub_cancel, smul_smul, mul_inv_cancel₀ hn, one_smul]
@@ -4353,7 +4353,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
         constructor
         · exact add_nonneg (mul_nonneg (sub_nonneg.mpr t.property.2) x.property.1)
             (mul_nonneg t.property.1 y.property.1)
-        · nlinarith [t.property.1,t.property.2,x.property.1,x.property.2,y.property.1,y.property.2]⟩
+        · nlinarith only [t.property.1,t.property.2,x.property.1,x.property.2,y.property.1,y.property.2]⟩
       continuous_toFun := by fun_prop
       source' := by apply Subtype.ext; simp
       target' := by apply Subtype.ext; simp }
@@ -5238,7 +5238,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
           intro he; rw [he] at hgz; exact (ne_of_lt hneg) hgz)
         exact hn z (hx.trans_le hz.1) hzy hgz
   let intervalMidpoint (x y : Interval) : Interval := ⟨(x.val+y.val)/2,by
-    constructor <;> linarith [x.property.1,x.property.2,y.property.1,y.property.2]⟩
+    constructor <;> linarith only [x.property.1,x.property.2,y.property.1,y.property.2]⟩
   have actualNegativeFaceEdges (k : Fin (n+1) × Fin (n+1))
       (haxis : ∀ x ∈ chartDomain (chart k),
         x ∈ b.val.image ↔ (convexChart (chart k) x).1 = 0) (i : Fin 4) :
@@ -5288,8 +5288,8 @@ theorem count_decreasing_isotopy_has_returning_subarc
     let y := mesh j.succ
     have hxy : x < y := hm (by change j.val < j.val+1; omega)
     let s := intervalMidpoint x y
-    have hxs : x < s := by change x.val < (x.val+y.val)/2; have hh : x.val < y.val := hxy; linarith
-    have hsy : s < y := by change (x.val+y.val)/2 < y.val; have hh : x.val < y.val := hxy; linarith
+    have hxs : x < s := by change x.val < (x.val+y.val)/2; have hh : x.val < y.val := hxy; linarith only [hh]
+    have hsy : s < y := by change (x.val+y.val)/2 < y.val; have hh : x.val < y.val := hxy; linarith only [hh]
     have hn : ∀ t, x < t → t < y → g t ≠ 0 := by
       intro t ht0 ht1
       exact div_ne_zero (hno j t ht0 ht1) hc
@@ -5299,7 +5299,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
         constructor
         · exact add_nonneg (mul_nonneg (sub_nonneg.mpr t.property.2) x.property.1)
             (mul_nonneg t.property.1 y.property.1)
-        · nlinarith [x.property.1,x.property.2,y.property.1,y.property.2,t.property.1,t.property.2]⟩
+        · nlinarith only [x.property.1,x.property.2,y.property.1,y.property.2,t.property.1,t.property.2]⟩
       continuous_toFun := by fun_prop
       source' := by apply Subtype.ext; simp
       target' := by apply Subtype.ext; simp }
@@ -5307,7 +5307,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
       change x.val ≤ (1-t.val)*x.val+t.val*y.val ∧
         (1-t.val)*x.val+t.val*y.val ≤ y.val
       have hh : x.val < y.val := hxy
-      constructor <;> nlinarith [t.property.1,t.property.2]
+      constructor <;> nlinarith only [hh,t.property.1,t.property.2]
     have hdi : Function.Injective d := by
       intro t u he
       apply Subtype.ext
@@ -5329,12 +5329,12 @@ theorem count_decreasing_isotopy_has_returning_subarc
         change x.val < (1-t.val)*x.val+t.val*y.val
         have hh : x.val < y.val := hxy
         have ht0 : 0 < t.val := ht.1
-        nlinarith
+        nlinarith only [hh,ht0]
       have hdt1 : d t < y := by
         change (1-t.val)*x.val+t.val*y.val < y.val
         have hh : x.val < y.val := hxy
         have ht1 : t.val < 1 := ht.2
-        nlinarith
+        nlinarith only [hh,ht1]
       exact lt_of_le_of_ne (hsign _ (hd t)) (hn _ hdt0 hdt1)
     · change boundaryFace i (d 0) = boundaryFace i x
       rw [d.source]
@@ -5811,11 +5811,11 @@ theorem count_decreasing_isotopy_has_returning_subarc
         (activeFaceRadial p z).2 ∈ Set.Ioo (0 : Interval) 1 := by
     obtain ⟨w,hw,hwf⟩ := activeFaceRadialFormula p z
     have hd : 0 < 1-(regularizedCellLoops p.1.val z.val).val.1 /
-        (cellCenter p.1.val).val.1 := by linarith
+        (cellCenter p.1.val).val.1 := by linarith only [hneg]
     have hpos : 0 < 1/(1-(regularizedCellLoops p.1.val z.val).val.1 /
         (cellCenter p.1.val).val.1) := div_pos zero_lt_one hd
     have hlt : 1/(1-(regularizedCellLoops p.1.val z.val).val.1 /
-        (cellCenter p.1.val).val.1) < 1 := (div_lt_one hd).mpr (by linarith)
+        (cellCenter p.1.val).val.1) < 1 := (div_lt_one hd).mpr (by linarith only [hneg])
     have hn : ‖w.val‖ < 1 := by
       rw [hwf,norm_smul,Real.norm_eq_abs,abs_of_pos hpos,z.val.property,mul_one]
       exact hlt
@@ -5827,7 +5827,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
         (abs_lt.mp hh.2).1,(abs_lt.mp hh.2).2⟩
     change (0 < (w.val.1+1)/2 ∧ (w.val.1+1)/2 < 1) ∧
       (0 < (w.val.2+1)/2 ∧ (w.val.2+1)/2 < 1)
-    constructor <;> constructor <;> linarith [hb.1,hb.2.1,hb.2.2.1,hb.2.2.2]
+    constructor <;> constructor <;> linarith only [hb.1,hb.2.1,hb.2.2.1,hb.2.2.2]
   let zeroEdgeIndex := Σ p : activeCells × Fin 4,
     {j : Fin (activeFaceSize p+1) |
       (regularizedCellLoops p.1.val (boundaryFace p.2
@@ -6954,11 +6954,11 @@ theorem count_decreasing_isotopy_has_returning_subarc
     have hsl : sl ∈ Set.Ioo x t := by
       change x.val < (x.val+t.val)/2 ∧ (x.val+t.val)/2 < t.val
       have hh : x.val < t.val := hxt
-      constructor <;> linarith
+      constructor <;> linarith only [hh]
     have hsr : sr ∈ Set.Ioo t y := by
       change t.val < (t.val+y.val)/2 ∧ (t.val+y.val)/2 < y.val
       have hh : t.val < y.val := hty
-      constructor <;> linarith
+      constructor <;> linarith only [hh]
     have hnormal (q : Interval) : actualFaceHeight p q =
         (convexChart (chart p.1.val) (γ q)).1 / (cellCenter p.1.val).val.1 := by
       change (regularizedCellLoops p.1.val (boundaryFace p.2 q)).val.1 /
@@ -7170,9 +7170,9 @@ theorem count_decreasing_isotopy_has_returning_subarc
     let h := (regularizedCellLoops e.1.1.val z.val).val.1 /
       (cellCenter e.1.1.val).val.1
     have hh : h < 0 := hneg ht
-    have hd : 0 < 1-h := by linarith
+    have hd : 0 < 1-h := by linarith only [hh]
     have hpos : 0 < 1/(1-h) := div_pos zero_lt_one hd
-    have hlt : 1/(1-h) < 1 := (div_lt_one hd).mpr (by linarith)
+    have hlt : 1/(1-h) < 1 := (div_lt_one hd).mpr (by linarith only [hh])
     rw [huf,norm_smul,Real.norm_eq_abs,abs_of_pos hpos,z.val.property,mul_one]
     exact hlt
   have zeroEdgeInteriorCoordinates (e : zeroEdgeIndex) (t : Interval)
@@ -7189,7 +7189,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
         (abs_lt.mp hh.2).1,(abs_lt.mp hh.2).2⟩
     change (0 < (u.val.1+1)/2 ∧ (u.val.1+1)/2 < 1) ∧
       (0 < (u.val.2+1)/2 ∧ (u.val.2+1)/2 < 1)
-    constructor <;> constructor <;> linarith [hb.1,hb.2.1,hb.2.2.1,hb.2.2.2]
+    constructor <;> constructor <;> linarith only [hb.1,hb.2.1,hb.2.2.1,hb.2.2.2]
   -- zeroEdgeIndex is an ACTUAL finite index set. Every zeroEdge e is an
   -- embedded path in its actual selected cell whose image under that same
   -- cell filler lies on b. Endpoint labels retain the actual face mesh and
@@ -7216,14 +7216,14 @@ theorem count_decreasing_isotopy_has_returning_subarc
       change (phaseGrid k.1.castSucc).val ≤
         (1-z.1.val)*(phaseGrid k.1.castSucc).val+z.1.val*(phaseGrid k.1.succ).val ∧
         (1-z.1.val)*(phaseGrid k.1.castSucc).val+z.1.val*(phaseGrid k.1.succ).val ≤ (phaseGrid k.1.succ).val
-      constructor <;> nlinarith [z.1.property.1,z.1.property.2]
+      constructor <;> nlinarith only [hh,z.1.property.1,z.1.property.2]
     have second : phaseGrid k.2.castSucc ≤ (cellToGlobal k z).2 ∧
         (cellToGlobal k z).2 ≤ phaseGrid k.2.succ := by
       have hh := (phaseStep k.2).le
       change (phaseGrid k.2.castSucc).val ≤
         (1-z.2.val)*(phaseGrid k.2.castSucc).val+z.2.val*(phaseGrid k.2.succ).val ∧
         (1-z.2.val)*(phaseGrid k.2.castSucc).val+z.2.val*(phaseGrid k.2.succ).val ≤ (phaseGrid k.2.succ).val
-      constructor <;> nlinarith [z.2.property.1,z.2.property.2]
+      constructor <;> nlinarith only [hh,z.2.property.1,z.2.property.2]
     exact ⟨first.1,first.2,second.1,second.2⟩
   have cellToGlobalInverse (k : Fin (n+1) × Fin (n+1)) (z : Interval × Interval) :
       cellCoordinates k (cellToGlobal k z) = z := by
@@ -7254,6 +7254,16 @@ theorem count_decreasing_isotopy_has_returning_subarc
     change regularizedTrace (cellToGlobal e.1.1.val (zeroEdge e t)) ∈ b.val.image
     rw [regularizedOnCells _ _ (cellToGlobalInCell _ _),cellToGlobalInverse]
     exact zeroEdgeOnComparison e t
+  have affineInterior (i : Fin (n+1)) (r : Interval)
+      (hr : r ∈ Set.Ioo (0 : Interval) 1) :
+      (phaseGrid i.castSucc).val <
+        (1-r.val)*(phaseGrid i.castSucc).val+r.val*(phaseGrid i.succ).val ∧
+      (1-r.val)*(phaseGrid i.castSucc).val+r.val*(phaseGrid i.succ).val <
+        (phaseGrid i.succ).val := by
+    have hi : (phaseGrid i.castSucc).val < (phaseGrid i.succ).val := phaseStep i
+    have hr0 : 0 < r.val := hr.1
+    have hr1 : r.val < 1 := hr.2
+    constructor <;> nlinarith only [hi,hr0,hr1]
   have globalZeroEdgeInterior (e : zeroEdgeIndex) (t : Interval)
       (ht : t ∈ Set.Ioo (0 : Interval) 1) :
       (globalZeroEdge e t).1 ∈ Set.Ioo (phaseGrid e.1.1.val.1.castSucc)
@@ -7261,16 +7271,6 @@ theorem count_decreasing_isotopy_has_returning_subarc
       (globalZeroEdge e t).2 ∈ Set.Ioo (phaseGrid e.1.1.val.2.castSucc)
         (phaseGrid e.1.1.val.2.succ) := by
     obtain ⟨hx,hy⟩ := zeroEdgeInteriorCoordinates e t ht
-    have affineInterior (i : Fin (n+1)) (r : Interval)
-        (hr : r ∈ Set.Ioo (0 : Interval) 1) :
-        (phaseGrid i.castSucc).val <
-          (1-r.val)*(phaseGrid i.castSucc).val+r.val*(phaseGrid i.succ).val ∧
-        (1-r.val)*(phaseGrid i.castSucc).val+r.val*(phaseGrid i.succ).val <
-          (phaseGrid i.succ).val := by
-      have hi : (phaseGrid i.castSucc).val < (phaseGrid i.succ).val := phaseStep i
-      have hr0 : 0 < r.val := hr.1
-      have hr1 : r.val < 1 := hr.2
-      constructor <;> nlinarith
     exact ⟨affineInterior _ _ hx,affineInterior _ _ hy⟩
   have phaseOpenIntervalsUnique (i j : Fin (n+1)) (r : Interval)
       (hi : r ∈ Set.Ioo (phaseGrid i.castSucc) (phaseGrid i.succ))
@@ -7360,14 +7360,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
         (0 : ℝ)*(phaseGrid k.val.1.succ).val = 0
       simp [hk,phaseGrid]
     have hphase : t ∈ Set.Ioo (phaseGrid k.val.2.castSucc) (phaseGrid k.val.2.succ) := by
-      have hs := phaseStep k.val.2
-      have hu0 : 0 < u.val := hu.1
-      have hu1 : u.val < 1 := hu.2
-      change (phaseGrid k.val.2.castSucc).val <
-        (1-u.val)*(phaseGrid k.val.2.castSucc).val+u.val*(phaseGrid k.val.2.succ).val ∧
-        (1-u.val)*(phaseGrid k.val.2.castSucc).val+u.val*(phaseGrid k.val.2.succ).val <
-          (phaseGrid k.val.2.succ).val
-      constructor <;> nlinarith
+      exact affineInterior k.val.2 u hu
     have hpoint : cellToGlobal k.val (0,u) = (0,t) := Prod.ext htime rfl
     have hc := actualBottomCellIdentification e r k.val.2 t hphase (he.trans hpoint)
     apply Subtype.ext
@@ -7384,14 +7377,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
         (1 : ℝ)*(phaseGrid k.val.1.succ).val = 1
       simp [hk,phaseGrid]
     have hphase : t ∈ Set.Ioo (phaseGrid k.val.2.castSucc) (phaseGrid k.val.2.succ) := by
-      have hs := phaseStep k.val.2
-      have hu0 : 0 < u.val := hu.1
-      have hu1 : u.val < 1 := hu.2
-      change (phaseGrid k.val.2.castSucc).val <
-        (1-u.val)*(phaseGrid k.val.2.castSucc).val+u.val*(phaseGrid k.val.2.succ).val ∧
-        (1-u.val)*(phaseGrid k.val.2.castSucc).val+u.val*(phaseGrid k.val.2.succ).val <
-          (phaseGrid k.val.2.succ).val
-      constructor <;> nlinarith
+      exact affineInterior k.val.2 u hu
     have hpoint : cellToGlobal k.val (1,u) = (1,t) := Prod.ext htime rfl
     have hc := actualTopCellIdentification e r k.val.2 t hphase (he.trans hpoint)
     apply Subtype.ext
@@ -7835,14 +7821,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
       ring
     have hphaseopen : (cellToGlobal k.val (1,u)).2 ∈
         Set.Ioo (phaseGrid k.val.2.castSucc) (phaseGrid k.val.2.succ) := by
-      have hs := phaseStep k.val.2
-      have hu0 : 0 < u.val := hu.1
-      have hu1 : u.val < 1 := hu.2
-      change (phaseGrid k.val.2.castSucc).val <
-        (1-u.val)*(phaseGrid k.val.2.castSucc).val+u.val*(phaseGrid k.val.2.succ).val ∧
-        (1-u.val)*(phaseGrid k.val.2.castSucc).val+u.val*(phaseGrid k.val.2.succ).val <
-          (phaseGrid k.val.2.succ).val
-      constructor <;> nlinarith
+      exact affineInterior k.val.2 u hu
     rw [htimecoord] at hc
     have hp := phaseOpenClosedUnique k.val.2 e.1.1.val.2 _ hphaseopen hc.2
     rcases phaseClosedCellAtGridNode k.val.1.succ e.1.1.val.1 hc.1 with hi | hi
@@ -7875,14 +7854,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
       ring
     have htimeopen : (cellToGlobal k.val (u,1)).1 ∈
         Set.Ioo (phaseGrid k.val.1.castSucc) (phaseGrid k.val.1.succ) := by
-      have hs := phaseStep k.val.1
-      have hu0 : 0 < u.val := hu.1
-      have hu1 : u.val < 1 := hu.2
-      change (phaseGrid k.val.1.castSucc).val <
-        (1-u.val)*(phaseGrid k.val.1.castSucc).val+u.val*(phaseGrid k.val.1.succ).val ∧
-        (1-u.val)*(phaseGrid k.val.1.castSucc).val+u.val*(phaseGrid k.val.1.succ).val <
-          (phaseGrid k.val.1.succ).val
-      constructor <;> nlinarith
+      exact affineInterior k.val.1 u hu
     rw [hphasecoord] at hc
     have hp := phaseOpenClosedUnique k.val.1 e.1.1.val.1 _ htimeopen hc.1
     rcases phaseClosedCellAtGridNode k.val.2.succ e.1.1.val.2 hc.2 with hi | hi
@@ -7955,16 +7927,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
         (phaseGrid k.val.1.castSucc) (phaseGrid k.val.1.succ) ∧
         (cellToGlobal k.val z).2 ∈ Set.Ioo
         (phaseGrid k.val.2.castSucc) (phaseGrid k.val.2.succ) := by
-      have affine (i : Fin (n+1)) (u : Interval) (hu : u ∈ Set.Ioo (0 : Interval) 1) :
-          (phaseGrid i.castSucc).val <
-            (1-u.val)*(phaseGrid i.castSucc).val+u.val*(phaseGrid i.succ).val ∧
-          (1-u.val)*(phaseGrid i.castSucc).val+u.val*(phaseGrid i.succ).val <
-            (phaseGrid i.succ).val := by
-        have hs := phaseStep i
-        have hu0 : 0 < u.val := hu.1
-        have hu1 : u.val < 1 := hu.2
-        constructor <;> nlinarith
-      exact ⟨affine k.val.1 z.1 hz.1,affine k.val.2 z.2 hz.2⟩
+      exact ⟨affineInterior k.val.1 z.1 hz.1,affineInterior k.val.2 z.2 hz.2⟩
     have h1 := phaseOpenClosedUnique k.val.1 e.1.1.val.1 _ hin.1 hc.1
     have h2 := phaseOpenClosedUnique k.val.2 e.1.1.val.2 _ hin.2 hc.2
     exact Subtype.ext (Prod.ext h1.symm h2.symm)
@@ -8055,14 +8018,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
       simp [phaseGrid]
     have htimeopen : (cellToGlobal k.val (u,0)).1 ∈
         Set.Ioo (phaseGrid k.val.1.castSucc) (phaseGrid k.val.1.succ) := by
-      have hs := phaseStep k.val.1
-      have h0 : 0 < u.val := hu.1
-      have h1 : u.val < 1 := hu.2
-      change (phaseGrid k.val.1.castSucc).val <
-        (1-u.val)*(phaseGrid k.val.1.castSucc).val+u.val*(phaseGrid k.val.1.succ).val ∧
-        (1-u.val)*(phaseGrid k.val.1.castSucc).val+u.val*(phaseGrid k.val.1.succ).val <
-          (phaseGrid k.val.1.succ).val
-      constructor <;> nlinarith
+      exact affineInterior k.val.1 u hu
     have hprojection := (actual_cylinder_projection_fiber
       (globalZeroEdge e r) (cellToGlobal k.val (u,0))).mp he
     have hphasecases : (globalZeroEdge e r).2 = 0 ∨ (globalZeroEdge e r).2 = 1 := by
@@ -8370,7 +8326,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
         change (0 : ℕ) < j.val
         omega
       have hl : 0 < (phaseGrid j.castSucc).val := hleft
-      linarith [(phaseGrid j.succ).property.2]
+      linarith only [hl,(phaseGrid j.succ).property.2]
   have actualNegativeCorner00CylinderCountTwo (k : activeCells)
       (hneg : actualFaceHeight (k,0) (0 : Interval) < 0)
       (p : zeroEndpointSet)
@@ -8631,7 +8587,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
       z.2.val*(phaseGrid k.val.2.succ).val ∧
       (1-z.2.val)*(phaseGrid k.val.2.castSucc).val+
       z.2.val*(phaseGrid k.val.2.succ).val < 1
-    constructor <;> nlinarith
+    constructor <;> nlinarith only [hs,h0,h1,hlo,hhi]
   have actualTimeRootCylinderCellAlternatives (k l : activeCells) (u : Interval)
       (hu : u ∈ Set.Ioo (0 : Interval) 1)
       (htime : k.val.1.succ = l.val.1.castSucc) (hphase : k.val.2 = l.val.2)
@@ -8679,7 +8635,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
         2*Real.pi*(phaseGrid k.2.castSucc).val < 2*Real.pi := by
       have hm := mul_lt_mul_of_pos_left (cellAngularWidth k.2)
         (by positivity : 0 < 2*Real.pi)
-      nlinarith [hm]
+      nlinarith only [hm]
     have hmem (u : Interval × Interval) :
         2*Real.pi*(cellToGlobal k u).2.val ∈
           Set.Icc (2*Real.pi*(phaseGrid k.2.castSucc).val)
@@ -9219,7 +9175,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
         constructor
         · exact add_nonneg (mul_nonneg (sub_nonneg.mpr t.property.2) r.property.1)
             (mul_nonneg t.property.1 s.property.1)
-        · nlinarith [t.property.1,t.property.2,r.property.1,r.property.2,s.property.1,s.property.2]⟩
+        · nlinarith only [t.property.1,t.property.2,r.property.1,r.property.2,s.property.1,s.property.2]⟩
       continuous_toFun := by fun_prop
       source' := by apply Subtype.ext; simp
       target' := by apply Subtype.ext; simp }
@@ -9637,7 +9593,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
       have hn := actualOuterCylinderSchoenflies_norm (cylinderZeroEdge q.1 u)
       rw [he,hnorm] at hn
       change (cylinderZeroEdge q.1 u).1.val = 0
-      linarith
+      linarith only [hn]
     have huOld : u = 0 ∨ u = 1 := by
       by_contra hn
       have huI : u ∈ Set.Ioo (0 : Interval) 1 := by
@@ -10266,10 +10222,10 @@ theorem count_decreasing_isotopy_has_returning_subarc
     rcases actualOriginalBoundaryVertexTime v hBoundary with h0 | h1
     · rw [h0] at hNorm
       norm_num at hNorm
-      linarith [hStrict.2]
+      linarith only [hNorm,hStrict.2]
     · rw [h1] at hNorm
       norm_num at hNorm
-      linarith [hStrict.1]
+      linarith only [hNorm,hStrict.1]
   have actualClosedCapGraphOddVerticesOnBoundary
       (A : Set Schoenflies.Plane) (W : List (zeroEdgeIndex × Fin 3))
       (hA : A ⊆ Set.range actualCylinderBottomCircle)
@@ -10450,7 +10406,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
       change ‖actualPlanarVertexPosition r‖ = 2 - (zeroVertexPosition r).1.val at hn
       rw [he,hnorm] at hn
       change (zeroVertexPosition r).1.val = 0
-      linarith
+      linarith only [hn]
     have hrBottom := actualVertexAtBottomIsOriginal r htime
     have hrBoundary : r ∈ zeroBottomVertices ∪ zeroTopVertices :=
       Finset.mem_union.mpr (Or.inl hrBottom)
@@ -10468,7 +10424,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
     have ht : (zeroVertexPosition v).1 = 0 := by
       apply Subtype.ext
       change (zeroVertexPosition v).1.val = 0
-      linarith
+      linarith only [hn,hnorm]
     exact actualVertexAtBottomIsOriginal v ht
   have actualCapGraphPartnerProducesReturningPath
       (A : Set Schoenflies.Plane) (W : List (zeroEdgeIndex × Fin 3)) (a b r y : zeroVertex)
@@ -10683,7 +10639,7 @@ theorem count_decreasing_isotopy_has_returning_subarc
       change ‖actualOuterCylinderSchoenflies (q t)‖ < 2
       rw [actualOuterCylinderSchoenflies_norm]
       have htPos : 0 < (q t).1.val := hproper t htI
-      linarith
+      linarith only [htPos]
     exact ⟨v,w,W,A,B,hv,hw,hvw,hWne,hW,hCut,hPi,hJ,hBound⟩
   let actualReturningCapEventCount (v w : zeroVertex) (A : Set Schoenflies.Plane) : ℕ :=
     (zeroBottomVertices.filter (fun r => actualPlanarVertexPosition r ∈ A ∧ r ≠ v ∧ r ≠ w)).card

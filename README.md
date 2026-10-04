@@ -97,12 +97,32 @@ The toolchain is pinned to **Lean 4.35.0-rc3** in
 [lakefile.toml](lakefile.toml). The default Lake target is `MainTheorems`;
 Schoenflies is resolved as a local source dependency.
 
-The proof-source closure is free of `sorry` and `admit`. The four original
-endpoints have passed bounded compiler/kernel checks, axiom audits using exactly
-`propext`, `Classical.choice`, and `Quot.sound`, and unchanged-statement checks
-with the accepted object cache. A fresh full source build, declaration cleanup,
-and final comparison are still in progress; the commands above describe the
-intended build workflow, rather than a claim that this full rebuild has finished.
+The proof-source closure has compiled from source with the pinned Lean and
+Mathlib versions. Matching third-party caches were used for Mathlib; all
+project and vendored proof modules were freshly compiled. Ordinary `lake build`
+passes in the delivered checkout. The Lean sources contain no `sorry` or
+`admit`. The four original theorem statements are unchanged, and each theorem's
+axiom set is exactly `propext`, `Classical.choice`, and `Quot.sound`.
+
+The cleanup removes unused theorems and shortens two proofs. Its source-delta
+audit compiles the original edited modules against the same fresh dependency
+objects and compares their complete owned declarations with the delivered
+versions. Source-authored theorem types, source-authored computational
+definitions, and axiom sets are preserved; the report explicitly accounts for
+the intended proof rewrites and binder labels in the listed compiler-generated
+helpers. Source, compiled-reference, and applicable registration checks find no
+outside consumers of the removed names or changed internal helpers.
+
+The historical accepted-object comparison remains a separate provenance check
+and reports strict mismatches. The four headline contracts still match that
+reference. Source-delta validation does not claim a complete historical rebuild
+or literal identity of every historical proof object. See
+[tools/README.md](tools/README.md) for the reusable comparison tool and its
+scope.
+
+The full fresh source-build phase took about three hours in the recorded run;
+the largest geometry module took about 83 minutes. Cold builds include these
+expensive proofs.
 
 ## References and attribution
 

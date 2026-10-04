@@ -1,0 +1,16 @@
+
+unsafe def main (args : List String) : IO UInt32 := do
+  let configPath :: entries := args | throw <| IO.userError "config and entry modules required"
+  initSearchPath (← findSysroot)
+  enableInitializersExecution
+  IO.eprintln "FL_CMP_STAGE import-start"
+  let env ← importModules (entries.toArray.map fun n => ({ module := n.toName } : Import)) {} (loadExts := true) (leakEnv := true)
+  IO.eprintln "FL_CMP_STAGE import-complete/native-export-start"
+  let opts := ({} : Options).set `maxRecDepth (1000000 : Nat) |>.set `maxHeartbeats (0 : Nat)
+  let ctx : Command.Context := { fileName := "<native-comparator>", fileMap := FileMap.ofString "", snap? := none, cancelTk? := none }
+  let result ← ((exportComparator configPath).run ctx |>.run' (Command.mkState env {} opts)).toIO'
+  match result with
+  | .ok _ => return 0
+  | .error e =>
+    IO.eprintln (← e.toMessageData.toString)
+    return 1

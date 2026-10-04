@@ -16,6 +16,7 @@ attribute [local instance 3000]
   CurveComplex.C0BoundaryCorrespondence.instDecidableEqVertex_c0CurveToArcBoundaryCorrespondence
   CurveComplex.C0BoundaryCorrespondence.instDecidableEqArcVertex_c0CurveToArcBoundaryCorrespondence
 set_option autoImplicit false
+set_option maxHeartbeats 0
 namespace CurveComplex.C0BoundaryCorrespondence.CarriedAnnulus
 open CurveComplex.C0BoundaryCorrespondence
 open CurveComplex.FiniteArcDisk
