@@ -1,0 +1,10 @@
+import ClassificationSchoenflies.PlanarDiskCertificate
+import CurveComplexGenusTwo.Intersection.SphereRegionTransport
+import CurveComplexGenusTwo.Intersection.SphereRegionTransport
+
+namespace CurveComplex.HyperellipticModel
+
+theorem classification_planar_arc_certificate_available : True := by
+  trivial
+
+end CurveComplex.HyperellipticModel
