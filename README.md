@@ -124,6 +124,19 @@ The full fresh source-build phase took about three hours in the recorded run;
 the largest geometry module took about 83 minutes. Cold builds include these
 expensive proofs.
 
+## Source audit
+
+The source audit of **5 October 2026** records two local manuscript issues:
+Lemma 4.1 attaches an invariance qualifier to a subset of the wrong space, and
+Lemma 4.6 uses a literal bigon-counting measure that need not be finite. It also
+records three proof clarifications and one supplementary citation limitation
+already acknowledged by the manuscript.
+
+[SOURCE_ISSUES.md](SOURCE_ISSUES.md) gives source locations, suggested corrections,
+and relevant formalization interfaces, while distinguishing manuscript findings
+from historical Lean implementation defects. No finding establishes that any of
+Theorems 1.1–1.4 is false.
+
 ## References and attribution
 
 The mathematical source is *The Complex of Curves Pairwise Intersecting at Most
