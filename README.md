@@ -1,3 +1,5 @@
+> **Repository location update:** The maintained copy is now at [https://github.com/rational-intelligence/curve-complex](https://github.com/rational-intelligence/curve-complex). This original `EonMath/curve-complex` repository is preserved.
+
 # Curve complex formalization
 
 A Lean 4 formalization of the complex of essential curves that pairwise
